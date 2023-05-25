@@ -1,5 +1,7 @@
-from abc import  ABC,abstractmethod
-class Recipe:
+from abc import ABC, abstractmethod
+
+
+class Recipe(ABC):
     def prepare(self):
         self.preheat_oven()
         self.mix_ingredients()
@@ -10,17 +12,21 @@ class Recipe:
     def preheat_oven(self):
         print("Preheating oven...")
 
+    @abstractmethod
     def mix_ingredients(self):
         raise NotImplementedError("Subclasses must implement mix_ingredients method")
 
+    @abstractmethod
     def bake(self):
         raise NotImplementedError("Subclasses must implement bake method")
 
     def cool(self):
         print("Allowing to cool...")
 
+    @abstractmethod
     def decorate(self):
         raise NotImplementedError("Subclasses must implement decorate method")
+
 
 class ChocolateCake(Recipe):
     def mix_ingredients(self):
@@ -32,6 +38,7 @@ class ChocolateCake(Recipe):
     def decorate(self):
         print("Decorating the chocolate cake...")
 
+
 class Pancakes(Recipe):
     def mix_ingredients(self):
         print("Mixing pancake ingredients...")
@@ -42,6 +49,7 @@ class Pancakes(Recipe):
     def decorate(self):
         print("Adding syrup and toppings to the pancakes...")
 
+
 # Usage
 def main():
     chocolate_cake = ChocolateCake()
@@ -51,6 +59,7 @@ def main():
 
     pancakes = Pancakes()
     pancakes.prepare()
+
 
 if __name__ == '__main__':
     main()
