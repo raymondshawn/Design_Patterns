@@ -1,62 +1,70 @@
-class Shape:
-    def __init__(self, shape_type):
-        self.shape_type = shape_type
+from abc import ABC, abstractmethod
+
+
+class Shape(ABC):
+
+    @abstractmethod
+    def draw(self):
+        raise NotImplementedError("Subclasses must implement draw method")
+
+
+class Square(Shape):
+    def __str__(self):
+        return "square"
 
     def draw(self):
-        if self.shape_type == 'circle':
-            self.draw_circle()
-        elif self.shape_type == 'square':
-            self.draw_square()
-
-    def draw_circle(self):
-        raise NotImplementedError("Subclasses must implement draw_circle method")
-
-    def draw_square(self):
-        raise NotImplementedError("Subclasses must implement draw_square method")
+        return "Drawing square"
 
 
-class DrawingEngine:
-    def __init__(self, engine_type):
-        self.engine_type = engine_type
+class Circle(Shape):
+    def __str__(self):
+        return "circle"
 
-    def draw_circle(self):
-        if self.engine_type == 'raster':
-            self.draw_circle_raster()
-        elif self.engine_type == 'vector':
-            self.draw_circle_vector()
+    def draw(self):
+        return "Drawing circle"
 
-    def draw_square(self):
-        if self.engine_type == 'raster':
-            self.draw_square_raster()
-        elif self.engine_type == 'vector':
-            self.draw_square_vector()
 
-    def draw_circle_raster(self):
-        print("Drawing circle using raster graphics")
+class DrawingEngine(ABC):
 
-    def draw_circle_vector(self):
-        print("Drawing circle using vector graphics")
+    @abstractmethod
+    def draw(self):
+        raise NotImplementedError("Subclasses must implement draw method")
 
-    def draw_square_raster(self):
-        print("Drawing square using raster graphics")
 
-    def draw_square_vector(self):
-        print("Drawing square using vector graphics")
+class RasterEngine(DrawingEngine):
+    def __init__(self, shape):
+        self.shape = shape
+
+    def draw(self):
+        msg = self.shape.draw()
+        msg += " using raster engine"
+        print(msg)
+
+
+class VectorEngine(DrawingEngine):
+    def __init__(self, shape):
+        self.shape = shape
+
+    def draw(self):
+        msg = self.shape.draw()
+        msg += " using vector engine"
+        print(msg)
 
 
 # Usage
 def main():
-    shape1 = Shape('circle')
-    shape1.draw()
+    circle = Circle()
 
-    shape2 = Shape('square')
-    shape2.draw()
+    print(circle.draw())
 
-    engine1 = DrawingEngine('raster')
-    engine1.draw_circle()
+    square = Square()
+    print(square.draw())
 
-    engine2 = DrawingEngine('vector')
-    engine2.draw_square()
+    raster_engine = RasterEngine(shape_type=circle)
+    raster_engine.draw()
+
+    vector_engine = VectorEngine(shape_type=square)
+    vector_engine.draw()
 
 
 if __name__ == '__main__':
